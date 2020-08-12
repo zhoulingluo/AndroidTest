@@ -22,12 +22,13 @@ import android.text.TextWatcher;
 import java.util.regex.Pattern;
 
 /**
- * An Email format validator for {@link android.widget.EditText}.
+ * 一个电子邮件格式验证器为。
  */
 public class EmailValidator implements TextWatcher {
 
+    private boolean mIsValid = false;
     /**
-     * Email validation pattern.
+     * 电子邮件验证模式。
      */
     public static final Pattern EMAIL_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -39,17 +40,13 @@ public class EmailValidator implements TextWatcher {
                     ")+"
     );
 
-    private boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;
     }
 
     /**
-     * Validates if the given input is a valid email address.
-     *
-     * @param email        The email to validate.
-     * @return {@code true} if the input is a valid email. {@code false} otherwise.
+     * 验证给定的输入是否是有效的电子邮件地址。
      */
     public static boolean isValidEmail(CharSequence email) {
         return email != null && EMAIL_PATTERN.matcher(email).matches();

@@ -29,28 +29,23 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 /**
- * An {@link Activity} that represents an input form page where the user can provide his name, date
- * of birth and email address. The personal information can be saved to {@link SharedPreferences}
- * by clicking a button.
+ *一个输入表单页面，用户可以在其中提供自己的姓名、日期
+ *出生日期和电子邮件地址。个人信息可以保存到{@link SharedPreferences}
+ *点击一个按钮。
  */
 public class MainActivity extends Activity {
 
-    // Logger for this class.
     private static final String TAG = "MainActivity";
 
-    // The helper that manages writing to SharedPreferences.
     private SharedPreferencesHelper mSharedPreferencesHelper;
 
-    // The input field where the user enters his name.
+    // 用户输入姓名的输入字段。
     private EditText mNameText;
-
-    // The date picker where the user enters his date of birth.
+    // 用户输入其出生日期的日期选择器。
     private DatePicker mDobPicker;
-
-    // The input field where the user enters his email.
+    // 用户输入电子邮件的输入字段。
     private EditText mEmailText;
-
-    // The validator for the email input field.
+    // 电子邮件输入字段的验证器。
     private EmailValidator mEmailValidator;
 
     @Override
@@ -58,74 +53,66 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Shortcuts to input fields.
         mNameText = (EditText) findViewById(R.id.userNameInput);
         mDobPicker = (DatePicker) findViewById(R.id.dateOfBirthInput);
         mEmailText = (EditText) findViewById(R.id.emailInput);
 
-        // Setup field validators.
         mEmailValidator = new EmailValidator();
         mEmailText.addTextChangedListener(mEmailValidator);
 
-        // Instantiate a SharedPreferencesHelper.
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSharedPreferencesHelper = new SharedPreferencesHelper(sharedPreferences);
 
-        // Fill input fields from data retrieved from the SharedPreferences.
         populateUi();
     }
 
     /**
-     * Initialize all fields from the personal info saved in the SharedPreferences.
+     * 从SharedPreferences中保存的个人信息初始化所有字段。
      */
     private void populateUi() {
-        SharedPreferenceEntry sharedPreferenceEntry;
-        sharedPreferenceEntry = mSharedPreferencesHelper.getPersonalInfo();
+        SharedPreferenceEntry sharedPreferenceEntry = mSharedPreferencesHelper.getPersonalInfo();
         mNameText.setText(sharedPreferenceEntry.getName());
+        mEmailText.setText(sharedPreferenceEntry.getEmail());
         Calendar dateOfBirth = sharedPreferenceEntry.getDateOfBirth();
         mDobPicker.init(dateOfBirth.get(Calendar.YEAR), dateOfBirth.get(Calendar.MONTH),
                 dateOfBirth.get(Calendar.DAY_OF_MONTH), null);
-        mEmailText.setText(sharedPreferenceEntry.getEmail());
     }
 
 
     /**
-     * Called when the "Save" button is clicked.
+     * 当单击“保存”按钮时调用。
      */
     public void onSaveClick(View view) {
-        // Don't save if the fields do not validate.
+        // 如果字段没有验证，就不要保存。
         if (!mEmailValidator.isValid()) {
-            mEmailText.setError("Invalid email");
-            Log.w(TAG, "Not saving personal information: Invalid email");
+            mEmailText.setError("无效的电子邮件");
+            Log.w(TAG, "没有保存个人信息:无效的电子邮件");
             return;
         }
 
-        // Get the text from the input fields.
+        // 从输入字段中获取文本。
         String name = mNameText.getText().toString();
         Calendar dateOfBirth = Calendar.getInstance();
         dateOfBirth.set(mDobPicker.getYear(), mDobPicker.getMonth(), mDobPicker.getDayOfMonth());
         String email = mEmailText.getText().toString();
 
-        // Create a Setting model class to persist.
-        SharedPreferenceEntry sharedPreferenceEntry =
-                new SharedPreferenceEntry(name, dateOfBirth, email);
+        // 创建要持久化的设置模型类。
+        SharedPreferenceEntry sharedPreferenceEntry =new SharedPreferenceEntry(name, dateOfBirth, email);
 
-        // Persist the personal information.
+        // 持久化个人信息。
         boolean isSuccess = mSharedPreferencesHelper.savePersonalInfo(sharedPreferenceEntry);
         if (isSuccess) {
-            Toast.makeText(this, "Personal information saved", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "Personal information saved");
+            Toast.makeText(this, "个人信息保存", Toast.LENGTH_LONG).show();
         } else {
-            Log.e(TAG, "Failed to write personal information to SharedPreferences");
+            Log.e(TAG, "未能将个人信息写入共享首选项");
         }
     }
 
     /**
-     * Called when the "Revert" button is clicked.
+     * 当单击“恢复”按钮时调用。
      */
     public void onRevertClick(View view) {
         populateUi();
-        Toast.makeText(this, "Personal information reverted", Toast.LENGTH_LONG).show();
-        Log.i(TAG, "Personal information reverted");
+        Toast.makeText(this, "个人信息恢复", Toast.LENGTH_LONG).show();
     }
 }

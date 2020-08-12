@@ -31,93 +31,77 @@ import java.util.Calendar;
 
 
 /**
- * Unit tests for the {@link SharedPreferencesHelper} that mocks {@link SharedPreferences}.
+ * 进行单元测试。
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SharedPreferencesHelperTest {
 
     private static final String TEST_NAME = "Test name";
-
     private static final String TEST_EMAIL = "test@email.com";
-
     private static final Calendar TEST_DATE_OF_BIRTH = Calendar.getInstance();
-
     static {
         TEST_DATE_OF_BIRTH.set(1980, 1, 1);
     }
 
     private SharedPreferenceEntry mSharedPreferenceEntry;
-
     private SharedPreferencesHelper mMockSharedPreferencesHelper;
-
     private SharedPreferencesHelper mMockBrokenSharedPreferencesHelper;
 
     @Mock
     SharedPreferences mMockSharedPreferences;
-
     @Mock
     SharedPreferences mMockBrokenSharedPreferences;
-
     @Mock
     SharedPreferences.Editor mMockEditor;
-
     @Mock
     SharedPreferences.Editor mMockBrokenEditor;
 
     @Before
     public void initMocks() {
-        // Create SharedPreferenceEntry to persist.
-        mSharedPreferenceEntry = new SharedPreferenceEntry(TEST_NAME, TEST_DATE_OF_BIRTH,
-                TEST_EMAIL);
+        mSharedPreferenceEntry = new SharedPreferenceEntry(TEST_NAME, TEST_DATE_OF_BIRTH,TEST_EMAIL);
 
-        // Create a mocked SharedPreferences.
+        // 创建模拟的SharedPreferences。
         mMockSharedPreferencesHelper = createMockSharedPreference();
 
-        // Create a mocked SharedPreferences that fails at saving data.
+        // 创建一个在保存数据时失败的模拟SharedPreferences。
         mMockBrokenSharedPreferencesHelper = createBrokenMockSharedPreference();
     }
 
     @Test
     public void sharedPreferencesHelper_SaveAndReadPersonalInformation() {
-        // Save the personal information to SharedPreferences
+        // 将个人信息保存到SharedPreferences
         boolean success = mMockSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry);
+        assertThat("检查SharedPreferenceEntry.save……返回true",success, is(true));
 
-        assertThat("Checking that SharedPreferenceEntry.save... returns true",
-                success, is(true));
+        // 从SharedPreferences读取个人信息
+        SharedPreferenceEntry savedSharedPreferenceEntry =mMockSharedPreferencesHelper.getPersonalInfo();
 
-        // Read personal information from SharedPreferences
-        SharedPreferenceEntry savedSharedPreferenceEntry =
-                mMockSharedPreferencesHelper.getPersonalInfo();
-
-        // Make sure both written and retrieved personal information are equal.
-        assertThat("Checking that SharedPreferenceEntry.name has been persisted and read correctly",
+        // 确保书面的和检索的个人信息是平等的。
+        assertThat("检查SharedPreferenceEntry.name是否已被正确持久化和读取",
                 mSharedPreferenceEntry.getName(),
                 is(equalTo(savedSharedPreferenceEntry.getName())));
-        assertThat("Checking that SharedPreferenceEntry.dateOfBirth has been persisted and read "
-                + "correctly",
+        assertThat("检查SharedPreferenceEntry。已持久化并读取出生日期 "
+                + " 正确 ",
                 mSharedPreferenceEntry.getDateOfBirth(),
                 is(equalTo(savedSharedPreferenceEntry.getDateOfBirth())));
-        assertThat("Checking that SharedPreferenceEntry.email has been persisted and read "
-                + "correctly",
+        assertThat("检查SharedPreferenceEntry。电子邮件已被保存和阅读"
+                + " 正确 ",
                 mSharedPreferenceEntry.getEmail(),
                 is(equalTo(savedSharedPreferenceEntry.getEmail())));
     }
 
     @Test
     public void sharedPreferencesHelper_SavePersonalInformationFailed_ReturnsFalse() {
-        // Read personal information from a broken SharedPreferencesHelper
-        boolean success =
-                mMockBrokenSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry);
-        assertThat("Makes sure writing to a broken SharedPreferencesHelper returns false", success,
-                is(false));
+        // 从损坏的SharedPreferencesHelper中读取个人信息
+        boolean success =mMockBrokenSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry);
+        assertThat("确保写入损坏的SharedPreferencesHelper返回false", success,is(false));
     }
 
     /**
      * Creates a mocked SharedPreferences.
      */
     private SharedPreferencesHelper createMockSharedPreference() {
-        // Mocking reading the SharedPreferences as if mMockSharedPreferences was previously written
-        // correctly.
+        // 模拟读取SharedPreferences，就好像mMockSharedPreferences是以前编写的一样
         when(mMockSharedPreferences.getString(eq(SharedPreferencesHelper.KEY_NAME), anyString()))
                 .thenReturn(mSharedPreferenceEntry.getName());
         when(mMockSharedPreferences.getString(eq(SharedPreferencesHelper.KEY_EMAIL), anyString()))
@@ -125,22 +109,22 @@ public class SharedPreferencesHelperTest {
         when(mMockSharedPreferences.getLong(eq(SharedPreferencesHelper.KEY_DOB), anyLong()))
                 .thenReturn(mSharedPreferenceEntry.getDateOfBirth().getTimeInMillis());
 
-        // Mocking a successful commit.
+        // 模拟成功的提交。
         when(mMockEditor.commit()).thenReturn(true);
 
-        // Return the MockEditor when requesting it.
+        // 请求模拟程序时返回模拟程序。
         when(mMockSharedPreferences.edit()).thenReturn(mMockEditor);
         return new SharedPreferencesHelper(mMockSharedPreferences);
     }
 
     /**
-     * Creates a mocked SharedPreferences that fails when writing.
+     * 创建在编写时失败的模拟SharedPreferences。
      */
     private SharedPreferencesHelper createBrokenMockSharedPreference() {
-        // Mocking a commit that fails.
+        // 模拟失败的提交。
         when(mMockBrokenEditor.commit()).thenReturn(false);
 
-        // Return the broken MockEditor when requesting it.
+        // 请求模型时返回损坏的模型。
         when(mMockBrokenSharedPreferences.edit()).thenReturn(mMockBrokenEditor);
         return new SharedPreferencesHelper(mMockBrokenSharedPreferences);
     }

@@ -19,7 +19,7 @@ package com.example.android.testing.unittesting.BasicSample;
 import java.util.Calendar;
 
 /**
- * Model class containing personal information that will be saved to SharedPreferences.
+ * 包含将保存到SharedPreferences的个人信息的模型类。
  */
 public class SharedPreferenceEntry {
 
