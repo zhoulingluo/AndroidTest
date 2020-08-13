@@ -29,8 +29,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Lets the user add lines to a multi-line log. When the device is rotated, the state is saved
- * and restored.
+ * 允许用户向多行日志添加行。当设备旋转时，状态被保存和恢复。
  */
 public class MainActivity extends Activity {
 
@@ -42,21 +41,20 @@ public class MainActivity extends Activity {
     private DateFormat mSimpleDateFormatter;
 
     /**
-     * Called when the user wants to append an entry to the history.
+     *当用户想要向历史记录添加一个条目时调用。
      */
     public void updateHistory(View view) {
-        // Get the text to add and timestamp.
+        // 获取要添加的文本和时间戳。
         EditText editText = (EditText) view.getRootView().findViewById(R.id.editText);
         CharSequence textToAdd = editText.getText();
         long timestamp = System.currentTimeMillis();
 
-        // Show it back to the user.
+        // 把它显示给用户。
         appendEntryToView(textToAdd.toString(), timestamp);
 
-        // Update the history.
+        // 更新历史。
         mLogHistory.addEntry(textToAdd.toString(), timestamp);
 
-        // Reset the EditText.
         editText.setText("");
     }
 
@@ -71,7 +69,7 @@ public class MainActivity extends Activity {
         mSimpleDateFormatter = new SimpleDateFormat("HH:mm:ss:SSS", Locale.getDefault());
 
         if (savedInstanceState != null) {
-            // We've got a past state, apply it to the UI.
+            //我们有一个过去状态，应用到UI。
             mLogHistory = savedInstanceState.getParcelable(KEY_HISTORY_DATA);
             for (Pair<String, Long> entry : mLogHistory.getData()) {
                 appendEntryToView(entry.first, entry.second);
@@ -92,13 +90,13 @@ public class MainActivity extends Activity {
 
     private void appendEntryToView(String text, long timestamp) {
         Date date = new Date(timestamp);
-        // Add a newline if needed or clear the text view (to get rid of the hint).
+        // 如果需要，添加一个换行符或清除文本视图(以消除提示)。
         if (!mIsHistoryEmpty) {
             mHistoryTextView.append("\n");
         } else {
             mHistoryTextView.setText("");
         }
-        // Add the representation of the new entry to the text view.
+        // 将新条目的表示添加到文本视图中。
         mHistoryTextView.append(String.format("%s [%s]", text, mSimpleDateFormatter.format(date)));
 
         mIsHistoryEmpty = false;

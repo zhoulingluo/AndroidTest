@@ -23,14 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Model that stores a parcelable log of entries, each with a timestamp.
+ * 存储一个可打包的条目日志，每个条目都有一个时间戳。
  */
 public class LogHistory implements Parcelable {
 
-    // Used to store the data to be used by the activity.
+    // 用于存储活动使用的数据。
     private final List<Pair<String, Long>> mData = new ArrayList<>();
 
-    // Creates an empty log.
     public LogHistory() { }
 
     @Override
@@ -40,19 +39,19 @@ public class LogHistory implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        // Prepare an array of strings and an array of timestamps.
+        // 准备一个字符串数组和一个时间戳数组。
         String[] texts = new String[mData.size()];
         long[] timestamps = new long[mData.size()];
 
-        // Store the data in the arrays.
+        // 将数据存储在数组中。
         for (int i = 0; i < mData.size(); i++) {
             texts[i] = mData.get(i).first;
             timestamps[i] = mData.get(i).second;
         }
-        // Write the size of the arrays first.
+        // 首先写入数组的大小。
         out.writeInt(texts.length);
 
-        // Write the two arrays in a specific order.
+        // 按特定顺序编写这两个数组。
         out.writeStringArray(texts);
         out.writeLongArray(timestamps);
     }
@@ -72,40 +71,40 @@ public class LogHistory implements Parcelable {
     };
 
     /**
-     * Returns a copy of the current data used by the activity.
+     * 返回活动所使用的当前数据的副本。
      */
     public List<Pair<String, Long>> getData() {
         return new ArrayList<>(mData);
     }
 
     /**
-     * Adds a new entry to the log.
-     * @param text the text to be stored in the log
-     * @param timestamp the current time in milliseconds since January 1, 1970 00:00:00.0 UTC.
+     * 向日志中添加一个新条目。
+     * @param text 要存储在日志中的文本
+     * @param timestamp 从UTC 1970年1月1日起的当前时间(以毫秒为单位)。
      */
     public void addEntry(String text, long timestamp) {
         mData.add(new Pair<String, Long>(text, timestamp));
     }
 
-    // Constructor used from the CREATOR field that unpacks a Parcel.
+    // 从CREATOR字段中使用的构造函数，用于解包包裹。
     private LogHistory(Parcel in) {
-        // First, read the size of the arrays that contain the data.
+        // 首先，读取包含数据的数组的大小。
         int length = in.readInt();
 
-        // Create the arrays to store the data.
+        // 创建数组来存储数据。
         String[] texts = new String[length];
         long[] timestamps = new long[length];
 
-        // Read the arrays in a specific order.
+        // 按照特定的顺序读取数组。
         in.readStringArray(texts);
         in.readLongArray(timestamps);
 
-        // The lengths of both arrays should match or the data is corrupted.
+        // 两个数组的长度应该匹配，否则数据已损坏。
         if (texts.length != timestamps.length) {
-            throw new IllegalStateException("Error reading from saved state.");
+            throw new IllegalStateException("从已保存状态读取时出错。");
         }
 
-        // Reset the data container and update the data.
+        // 重置数据容器并更新数据。
         mData.clear();
         for (int i = 0; i < texts.length; i++) {
             Pair<String, Long> pair = new Pair<>(texts[i], timestamps[i]);
