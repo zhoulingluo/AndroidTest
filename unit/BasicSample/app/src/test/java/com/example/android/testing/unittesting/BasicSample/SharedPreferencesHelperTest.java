@@ -36,6 +36,7 @@ import java.util.Calendar;
 @RunWith(MockitoJUnitRunner.class)
 public class SharedPreferencesHelperTest {
 
+    private final String TAG = SharedPreferencesHelperTest.class.getSimpleName()+"--》";
     private static final String TEST_NAME = "Test name";
     private static final String TEST_EMAIL = "test@email.com";
     private static final Calendar TEST_DATE_OF_BIRTH = Calendar.getInstance();
@@ -51,6 +52,8 @@ public class SharedPreferencesHelperTest {
     SharedPreferences mMockSharedPreferences;
     @Mock
     SharedPreferences mMockBrokenSharedPreferences;
+    //????????????????????????????????????????????既然有了mMockSharedPreferences，
+    // 为什么要mMockEditor。。。。。。mMockEditor=mMockSharedPreferences.edito()不就有了
     @Mock
     SharedPreferences.Editor mMockEditor;
     @Mock
@@ -101,15 +104,19 @@ public class SharedPreferencesHelperTest {
      * Creates a mocked SharedPreferences.
      */
     private SharedPreferencesHelper createMockSharedPreference() {
-        // 模拟读取SharedPreferences，就好像mMockSharedPreferences是以前编写的一样
         when(mMockSharedPreferences.getString(eq(SharedPreferencesHelper.KEY_NAME), anyString()))
                 .thenReturn(mSharedPreferenceEntry.getName());
+//        System.out.println(TAG+"eq(SharedPreferencesHelper.KEY_NAME):"+eq(SharedPreferencesHelper.KEY_NAME));
+//        System.out.println(TAG+"anyString():"+anyString());
+//        System.out.println(TAG+"模拟之后获取:"+mMockSharedPreferences.getString(SharedPreferencesHelper.KEY_NAME,"000"));
+//        System.out.println(TAG+"模拟之后获取:"+mMockSharedPreferences.getString(SharedPreferencesHelper.KEY_NAME,"111"));
         when(mMockSharedPreferences.getString(eq(SharedPreferencesHelper.KEY_EMAIL), anyString()))
                 .thenReturn(mSharedPreferenceEntry.getEmail());
         when(mMockSharedPreferences.getLong(eq(SharedPreferencesHelper.KEY_DOB), anyLong()))
                 .thenReturn(mSharedPreferenceEntry.getDateOfBirth().getTimeInMillis());
 
-        // 模拟成功的提交。
+        // 这一段和createBrokenMockSharedPreference是对应的，主要区别是thenReturn 一个是好的返回true 一个是坏的返回false
+        //之所有写上面是因为好的就会有返回值，上面就是模拟返回值。坏的没有返回值，就不用写
         when(mMockEditor.commit()).thenReturn(true);
 
         // 请求模拟程序时返回模拟程序。
@@ -123,7 +130,6 @@ public class SharedPreferencesHelperTest {
     private SharedPreferencesHelper createBrokenMockSharedPreference() {
         // 模拟失败的提交。
         when(mMockBrokenEditor.commit()).thenReturn(false);
-
         // 请求模型时返回损坏的模型。
         when(mMockBrokenSharedPreferences.edit()).thenReturn(mMockBrokenEditor);
         return new SharedPreferencesHelper(mMockBrokenSharedPreferences);

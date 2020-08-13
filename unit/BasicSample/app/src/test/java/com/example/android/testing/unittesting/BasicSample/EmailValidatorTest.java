@@ -27,6 +27,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class EmailValidatorTest {
 
+    /**
+     * 以后测试邮箱是否满足 就可以用这个
+     */
     @Test
     public void emailValidator_CorrectEmailSimple() {
         assertTrue(EmailValidator.isValidEmail("www.1237@12.com"));
