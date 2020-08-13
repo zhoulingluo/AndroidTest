@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * Runs all Junit3 and Junit4 Instrumentation tests.
+ * 运行所有Junit3和Junit4测试。
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({CalculatorInstrumentationTest.class, OperationHintLegacyInstrumentationTest.class})

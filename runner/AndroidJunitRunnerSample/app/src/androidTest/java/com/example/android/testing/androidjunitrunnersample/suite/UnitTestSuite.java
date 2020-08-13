@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * Runs all unit tests.
+ * 运行所有单元测试。
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({CalculatorTest.class, CalculatorAddParameterizedTest.class})

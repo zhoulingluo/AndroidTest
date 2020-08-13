@@ -32,17 +32,17 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * JUnit3 Ui Tests for {@link CalculatorActivity} using the {@link AndroidJUnitRunner}. This class
- * uses the Junit3 syntax for tests and extends {@link ActivityInstrumentationTestCase2}.
- * <p>
- * With the new AndroidJUnit runner you can run both JUnit3 and JUnit4 tests in a single test
- * test suite. The {@link AndroidRunnerBuilder} which extends JUnit's {@link
- * AllDefaultPossibilitiesBuilder} will create a single {@link TestSuite} from all tests and run
- * them.
- * <p>
- * ActivityInstrumentationTestCase2 will be deprecated soon. Please use {@link ActivityTestRule}
- * when writing new tests. For an example on how to use {@link ActivityTestRule} please see
- * {@link CalculatorInstrumentationTest}.
+ * JUnit3 Ui测试{@link CalculatorActivity}使用{@link AndroidJUnitRunner}。这个类
+ * * *使用Junit3语法进行测试并扩展了{@link ActivityInstrumentationTestCase2}。
+ * * * < p >
+ * * *使用新的AndroidJUnit运行器，您可以在单个测试中运行JUnit3和JUnit4测试
+ * * *测试套件。AndroidRunnerBuilder}扩展JUnit的{@link
+ * * * AllDefaultPossibilitiesBuilder}将从所有的测试中创建一个{@link TestSuite}并运行
+ * * *。
+ * * * < p >
+ * * * ActivityInstrumentationTestCase2很快将被弃用。请使用{@link ActivityTestRule}
+ * 当编写新的测试时。有关如何使用{@link ActivityTestRule}的示例，请参阅
+ * * * {@link CalculatorInstrumentationTest}。
  */
 @LargeTest
 public class OperationHintLegacyInstrumentationTest
@@ -58,7 +58,6 @@ public class OperationHintLegacyInstrumentationTest
     protected void setUp() throws Exception {
         super.setUp();
 
-        // Espresso does not start the Activity for you we need to do this manually here.
         mActivity = getActivity();
     }
 
@@ -76,4 +75,5 @@ public class OperationHintLegacyInstrumentationTest
         onView(withId(R.id.operand_two_edit_text)).check(matches(withHint(operandTwoHint)));
     }
 
+    //看到最后，我表示没有看懂，现在想想做个单元测试也就可以了，哎...
 }

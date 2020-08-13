@@ -33,21 +33,14 @@ import static org.junit.runners.Parameterized.Parameters;
 
 
 /**
- * JUnit4 tests for the calculator's add logic.
- *
- * <p> This test uses a Junit4s Parameterized tests features which uses annotations to pass
- * parameters into a unit test. The way this works is that you have to use the {@link Parameterized}
- * runner to run your tests.
- * </p>
+ * JUnit4测试计算器的添加逻辑。
  */
 @RunWith(Parameterized.class)
 @SmallTest
 public class CalculatorAddParameterizedTest {
 
     /**
-     * @return {@link Iterable} that contains the values that should be passed to the constructor.
-     * In this example we are going to use three parameters: operand one, operand two and the
-     * expected result.
+     * 三个参数:操作数1、操作数2和预期的结果。
      */
     @Parameters
     public static Iterable<Object[]> data() {
@@ -68,13 +61,9 @@ public class CalculatorAddParameterizedTest {
     private Calculator mCalculator;
 
     /**
-     * Constructor that takes in the values specified in
-     * {@link CalculatorAddParameterizedTest#data()}. The values need to be saved to fields in order
-     * to reuse them in your tests.
+     * 需要将值保存到字段，以便在测试中重用它们。
      */
-    public CalculatorAddParameterizedTest(double operandOne, double operandTwo,
-            double expectedResult) {
-
+    public CalculatorAddParameterizedTest(double operandOne, double operandTwo,double expectedResult) {
         mOperandOne = operandOne;
         mOperandTwo = operandTwo;
         mExpectedResult = expectedResult;

@@ -38,20 +38,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * JUnit4 Ui Tests for {@link CalculatorActivity} using the {@link AndroidJUnitRunner}.
- * This class uses the JUnit4 syntax for tests.
- * <p>
- * With the new AndroidJUnit runner you can run both JUnit3 and JUnit4 tests in a single test
- * suite. The {@link AndroidRunnerBuilder} which extends JUnit's
- * {@link AllDefaultPossibilitiesBuilder} will create a single {@link
- * TestSuite} from all tests and run them.
+ * 这个类使用JUnit4语法进行测试。
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class CalculatorInstrumentationTest {
 
     /**
-     * Use {@link ActivityScenario} to create and launch of the activity.
+     * 使用 {@link ActivityScenario} 创建和启动活动。
      */
     @Before
     public void launchActivity() {
@@ -91,18 +85,15 @@ public class CalculatorInstrumentationTest {
         performOperation(R.id.operation_mul_btn, "16.0", "16.0", "256.0");
     }
 
-    private void performOperation(int btnOperationResId, String operandOne,
-            String operandTwo, String expectedResult) {
-        // Type the two operands in the EditText fields
-        onView(withId(R.id.operand_one_edit_text)).perform(typeText(operandOne),
-                closeSoftKeyboard());
-        onView(withId(R.id.operand_two_edit_text)).perform(typeText(operandTwo),
-                closeSoftKeyboard());
+    private void performOperation(int btnOperationResId, String operandOne,String operandTwo, String expectedResult) {
+        // 在EditText字段中键入这两个操作数
+        onView(withId(R.id.operand_one_edit_text)).perform(typeText(operandOne),closeSoftKeyboard());
+        onView(withId(R.id.operand_two_edit_text)).perform(typeText(operandTwo),closeSoftKeyboard());
 
-        // Click on a given operation button
+        // 单击给定的操作按钮
         onView(withId(btnOperationResId)).perform(click());
 
-        // Check the expected test is displayed in the Ui
+        // 检查预期的测试显示在Ui中
         onView(withId(R.id.operation_result_text_view)).check(matches(withText(expectedResult)));
     }
 

@@ -19,39 +19,38 @@ package com.example.android.testing.androidjunitrunnersample;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * A simple calculator with a basic set of operations.
+ * 一个简单的计算器
  */
 public class Calculator {
 
     public enum Operator {ADD, SUB, DIV, MUL}
 
     /**
-     * Addition operation
+     *  加法运算
      */
     public double add(double firstOperand, double secondOperand) {
         return firstOperand + secondOperand;
     }
 
     /**
-     * Substract operation
+     * 减去操作
      */
     public double sub(double firstOperand, double secondOperand) {
         return firstOperand - secondOperand;
     }
 
     /**
-     * Divide operation
+     *除法运算
      */
     public double div(double firstOperand, double secondOperand) {
-        checkArgument(secondOperand != 0, "secondOperand must be != 0, you cannot divide by zero");
+        checkArgument(secondOperand != 0, "第二个操作数必须是!= 0，不能除以0");
         return firstOperand / secondOperand;
     }
 
     /**
-     * Multiply operation
+     * 乘法操作
      */
     public double mul(double firstOperand, double secondOperand) {
-
         return firstOperand * secondOperand;
     }
 }

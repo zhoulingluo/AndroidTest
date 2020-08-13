@@ -32,13 +32,12 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * JUnit3 Ui Tests for {@link CalculatorActivity} using the {@link AndroidJUnitRunner}. This class
- * uses the Junit3 syntax for tests.
- *
- * <p> With the new AndroidJUnit runner you can run both JUnit3 and JUnit4 tests in a single test
- * test suite. The {@link AndroidRunnerBuilder} which extends JUnit's {@link
- * AllDefaultPossibilitiesBuilder} will create a single {@link TestSuite} from all tests and run
- * them. </p>
+ * JUnit3 Ui测试{@link CalculatorActivity}使用{@link AndroidJUnitRunner}。这个类
+ * *使用Junit3语法进行测试。
+ * *
+ * 使用新的AndroidJUnit运行器，你可以在单个测试中运行JUnit3和JUnit4测试
+ * *测试套件。AndroidRunnerBuilder}扩展JUnit的{@link
+ * * AllDefaultPossibilitiesBuilder}将从所有的测试中创建一个{@link TestSuite}并运行
  */
 @LargeTest
 public class OperationHintInstrumentationTest
@@ -54,7 +53,7 @@ public class OperationHintInstrumentationTest
     protected void setUp() throws Exception {
         super.setUp();
 
-        // Espresso does not start the Activity for you we need to do this manually here.
+        // Espresso 不会为你启动活动 我们需要在这里手动做这个。
         mActivity = getActivity();
     }
 

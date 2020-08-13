@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * Test suite that runs all tests, unit + instrumentation tests.
+ * 运行所有测试的测试套件，单元+仪器测试。
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({UnitTestSuite.class, InstrumentationTestSuite.class})

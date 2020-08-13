@@ -26,9 +26,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * {@link android.app.Activity} which contains a simple calculator. Numbers can be entered in the
- * two {@link EditText} fields and result can be obtained by pressing one of the
- * operation {@link Button}s at the bottom.
+ *一个简单的计算器  UI测试
  */
 public class CalculatorActivity extends Activity {
 
@@ -38,7 +36,6 @@ public class CalculatorActivity extends Activity {
 
     private EditText mOperandOneEditText;
     private EditText mOperandTwoEditText;
-
     private TextView mResultTextView;
 
     @Override
@@ -51,23 +48,15 @@ public class CalculatorActivity extends Activity {
         mOperandTwoEditText = (EditText) findViewById(R.id.operand_two_edit_text);
     }
 
-    /**
-     * OnClick method that is called when the add {@link Button} is pressed.
-     */
     public void onAdd(View view) {
         compute(Calculator.Operator.ADD);
     }
-
-    /**
-     * OnClick method that is called when the substract {@link Button} is pressed.
-     */
     public void onSub(View view) {
         compute(Calculator.Operator.SUB);
     }
-
-    /**
-     * OnClick method that is called when the divide {@link Button} is pressed.
-     */
+    public void onMul(View view) {
+        compute(Calculator.Operator.MUL);
+    }
     public void onDiv(View view) {
         try {
             compute(Calculator.Operator.DIV);
@@ -75,13 +64,6 @@ public class CalculatorActivity extends Activity {
             Log.e(TAG, "IllegalArgumentException", iae);
             mResultTextView.setText(getString(R.string.computationError));
         }
-    }
-
-    /**
-     * OnClick method that is called when the multiply {@link Button} is pressed.
-     */
-    public void onMul(View view) {
-        compute(Calculator.Operator.MUL);
     }
 
     private void compute(Calculator.Operator operator) {
@@ -118,7 +100,7 @@ public class CalculatorActivity extends Activity {
     }
 
     /**
-     * @return the operand value which was entered in an {@link EditText} as a double
+     * 以双精度形式输入的操作数值
      */
     private static Double getOperand(EditText operandEditText) {
         String operandText = getOperandText(operandEditText);
@@ -126,7 +108,6 @@ public class CalculatorActivity extends Activity {
     }
 
     /**
-     * @return the operand text which was entered in an {@link EditText}.
      */
     private static String getOperandText(EditText operandEditText) {
         String operandText = operandEditText.getText().toString();

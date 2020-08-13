@@ -28,8 +28,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.is;
 
 /**
- * A custom matcher that checks the hint property of an {@link android.widget.EditText}. It
- * accepts either a {@link String} or a {@link org.hamcrest.Matcher}.
+ * 一个自定义匹配器，用来检查{@link android.widget.EditText}的暗示属性。它
+ * 接受{@link字符串}或{@link org.hamcrest.Matcher}
  */
 public class HintMatcher {
 

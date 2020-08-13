@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
 
 
 /**
- * JUnit4 unit tests for the calculator logic.
+ * JUnit4对计算器逻辑进行单元测试。
  */
 @RunWith(AndroidJUnit4.class)
 @SmallTest
