@@ -24,26 +24,25 @@ import android.os.IBinder;
 import java.util.Random;
 
 /**
- * {@link Service} that generates random numbers.
+ * {@link Service} 生成随机数。
  * <p>
- * A seed for the random number generator can be set via the {@link Intent} passed to
+ * 随机数生成器的种子可以通过传递给的{@link Intent}来设置
  * {@link #onBind(Intent)}.
  */
 public class LocalService extends Service {
-    // Used as a key for the Intent.
+    // 用作Intent的键。
     public static final String SEED_KEY = "SEED_KEY";
 
-    // Binder given to clients
+    // Binder
     private final IBinder mBinder = new LocalBinder();
 
-    // Random number generator
     private Random mGenerator = new Random();
 
     private long mSeed;
 
     @Override
     public IBinder onBind(Intent intent) {
-        // If the Intent comes with a seed for the number generator, apply it.
+        // 如果intent带有数字生成器的种子，就用它。
         if (intent.hasExtra(SEED_KEY)) {
             mSeed = intent.getLongExtra(SEED_KEY, 0);
             mGenerator.setSeed(mSeed);
@@ -54,13 +53,13 @@ public class LocalService extends Service {
     public class LocalBinder extends Binder {
 
         public LocalService getService() {
-            // Return this instance of LocalService so clients can call public methods.
+            // 返回LocalService的此实例，以便客户端可以调用公共方法。
             return LocalService.this;
         }
     }
 
     /**
-     * Returns a random integer in [0, 100).
+     * 返回[0,100]中的随机整数。
      */
     public int getRandomInt() {
         return mGenerator.nextInt(100);

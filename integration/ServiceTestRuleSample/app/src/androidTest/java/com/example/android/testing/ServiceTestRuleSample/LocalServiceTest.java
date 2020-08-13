@@ -34,21 +34,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * JUnit4 test that uses a {@link ServiceTestRule} to interact with a bound service.
- * <p>
- * {@link ServiceTestRule} is a JUnit rule that provides a
- * simplified mechanism to start and shutdown your service before
- * and after the duration of your test. It also guarantees that the service is successfully
- * connected when starting (or binding to) a service. The service can be started
- * (or bound) using one of the helper methods. It will automatically be stopped (or unbound) after
- * the test completes and any methods annotated with
- * <a href="http://junit.sourceforge.net/javadoc/org/junit/After.html"><code>After</code></a> are
- * finished.
- * <p>
- * Note: This rule doesn't support {@link android.app.IntentService} because it's automatically
- * destroyed when {@link android.app.IntentService#onHandleIntent(android.content.Intent)} finishes
- * all outstanding commands. So there is no guarantee to establish a successful connection
- * in a timely manner.
+ * 是一个JUnit规则，它提供了
+ * *简化了之前启动和关闭服务的机制
+ * *在您的测试期间之后。它还保证服务是成功的
+ * *在启动(或绑定到)服务时连接。可以启动该服务
+ * *(或绑定)使用帮助器方法之一。它将自动停止(或解除绑定)后
+ * *测试完成，任何注释的方法
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
@@ -58,20 +49,20 @@ public class LocalServiceTest {
 
     @Test
     public void testWithBoundService() throws TimeoutException {
-        // Create the service Intent.
-        Intent serviceIntent =
-                new Intent(getApplicationContext(), LocalService.class);
+        // 创建serviceIntent
+        Intent serviceIntent =new Intent(getApplicationContext(), LocalService.class);
 
-        // Data can be passed to the service via the Intent.
+        // 数据可以通过意图传递给服务。
         serviceIntent.putExtra(LocalService.SEED_KEY, 42L);
 
-        // Bind the service and grab a reference to the binder.
+        // 绑定服务并获取绑定器的引用。
         IBinder binder = mServiceRule.bindService(serviceIntent);
 
-        // Get the reference to the service, or you can call public methods on the binder directly.
+        // 获取对服务的引用，或者可以直接调用绑定器上的公共方法。
         LocalService service = ((LocalService.LocalBinder) binder).getService();
 
-        // Verify that the service is working correctly.
+        System.out.println(service.getRandomInt());
+        // 验证服务是否正常工作。
         assertThat(service.getRandomInt(), is(any(Integer.class)));
     }
 }
