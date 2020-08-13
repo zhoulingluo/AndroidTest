@@ -38,21 +38,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * JUnit4 Ui Tests for {@link CalculatorActivity} using the {@link AndroidJUnitRunner} with the
- * Android Test Orchestrator.
- * This class uses the JUnit4 syntax for tests.
- * <p>
- * With the new AndroidJUnit runner you can run both JUnit3 and JUnit4 tests in a single test
- * suite. The {@link AndroidRunnerBuilder} which extends JUnit's
- * {@link AllDefaultPossibilitiesBuilder} will create a single {@link
- * TestSuite} from all tests and run them.
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class CalculatorInstrumentationTest {
 
     /**
-     * Use {@link ActivityScenario} to create and launch of the activity.
+     * 启动 activity.
      */
     @Before
     public void launchActivity() {
@@ -94,7 +86,7 @@ public class CalculatorInstrumentationTest {
 
     private void performOperation(int btnOperationResId, String operandOne,
             String operandTwo, String expectedResult) {
-        // Type the two operands in the EditText fields
+
         onView(withId(R.id.operand_one_edit_text)).perform(typeText(operandOne),
                 closeSoftKeyboard());
         onView(withId(R.id.operand_two_edit_text)).perform(typeText(operandTwo),
@@ -107,4 +99,5 @@ public class CalculatorInstrumentationTest {
         onView(withId(R.id.operation_result_text_view)).check(matches(withText(expectedResult)));
     }
 
+    //
 }
